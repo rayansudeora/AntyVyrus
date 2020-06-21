@@ -1,26 +1,3 @@
-
-'''
-import requests as requests
-import simplejson as json
-
-API_Key = "tDEHxW_Jr1TW"
-Project_Token = "tENR1ercxLe"
-Run_Token = "tU7b3K0S4pyz"
-
-response = requests.get(f'https://www.parsehub.com/api/v2/projects/{Project_Token}/last_ready_run/data', params=API_Key)
-data = json.loads(response.text)
-print(data)
-'''
-
-'''
-import requests
-import json
-import pyttsx3
-import speech_recognition as sr
-import re
-import threading
-import time
-'''
 import requests
 import json
 
@@ -65,11 +42,15 @@ def main(text):
 
 
 	def return_data(country):
-		country_stuff = data.get_country_info(country)
-		country_stuff = data.get_country_info(country)
-		cases = (country_stuff['total_cases'])
-		deaths = (country_stuff['total_deaths'])
-		return cases, deaths
+		try:
+			country_stuff = data.get_country_info(country)
+			country_stuff = data.get_country_info(country)
+			cases = (country_stuff['total_cases'])
+			deaths = (country_stuff['total_deaths'])
+			return cases, deaths
+		except KeyError:
+			deaths = 0
+			return cases,deaths
 
 
 
