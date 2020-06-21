@@ -12,13 +12,12 @@ def index():
 	return render_template("home.html")
 
 @app.route("/covidupdates")
-def covid():
+def form():
 	return render_template("myform.html")
 
 @app.route("/covidupdates",methods=["POST"])
-def covidform():
+def retrieve_data():
 	text = request.form["selectcountries"]
-	#scraper.main(text)
 	return render_template("postform.html", text=text, data=scraper.main(text))
 
 
