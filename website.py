@@ -24,11 +24,8 @@ def covidform():
 
 @app.route("/selftest")
 def selftest():
-	return "SELFTEST"
+	return render_template("selftest.html")
 
 
 if __name__ == '__main__':
 	app.run(debug=True)
-
-
-
