@@ -17,7 +17,7 @@ def covid():
 
 @app.route("/covidupdates",methods=["POST"])
 def covidform():
-	text = request.form["text"].upper()
+	text = request.form["selectcountries"]
 	#scraper.main(text)
 	return render_template("postform.html", text=text, data=scraper.main(text))
 
