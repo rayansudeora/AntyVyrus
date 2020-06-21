@@ -2,15 +2,16 @@
 
 
 {% block body %}
-	<div class="jumbotron text.center">
+	<!-- <div class="jumbotron text.center">
 		<h1>COVID-19 Stat Checker</h1>
 		<p>Enter a country below to receive updates on COVID-19.
 			<form method="POST">
-				<input name="text">
-				<input type="submit">
+				<input name="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+				<br>
+				<br>
+				<button type="submit" class="btn btn-primary">Submit</button>
 	 </form>
-	</p> 
-
+	</p> -->
 
 <!--
 <div class="dropdown">
@@ -25,7 +26,7 @@
 </div>
 -->
 
-<!--
+
 <div class="container">
 	<div class="jumbotron">
 		<h1 class="display-4">COVID-19 Stat Checker</h1>
@@ -37,7 +38,7 @@
 	<form method="POST">
 	<div class="form-group">
 		<label for="exampleInputEmail1">Country</label>
-		<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+		<input type="text" name = "text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
 		<small id="emailHelp" class="form-text text-muted">Remember to enter a valid country.</small>
 	</div>
 	<button type="submit" class="btn btn-primary">Submit</button>
@@ -56,5 +57,5 @@
 <p></p>
 <p></p>
 <p></p>
--->
+
 {% endblock %}
