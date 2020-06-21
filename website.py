@@ -1,74 +1,28 @@
-from flask import Flask, render_template, flash, redirect, url_for, session, request, logging
-from data import Articles
-from flask_mysqldb import MySQL
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
-from passlib.hash import sha256_crypt
+from flask import Flask, render_template, request, flash, redirect, url_for, session, logging
 
 app = Flask(__name__)
 
-# Config mysql
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "loginuser"
-app.config["MYSQL_PASSWORD"] = "loginpass"
-app.config["MYSQL_DB"] = "flaskapp"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
-mysql = MySQL(app)
-
-Articles_data = Articles()
 
 @app.route('/')
 def index():
 	return render_template("home.html")
 
-@app.route("/about")
-def about():
-	return render_template("about.html")
+@app.route("/covidupdates")
+def covid():
+	return render_template("myform.html")
 
-@app.route("/articles")
-def articles():
-	return render_template("articles.html", articles = Articles_data)
+@app.route("/covidupdates",methods=["POST"])
+def covidform():
+	text = request.form["text"].upper()
+	return render_template("postform.html", text=text)
 
+@app.route("/selftest")
+def selftest():
+	return "SELFTEST"
 
-@app.route("/article/<string:id>/")
-def article(id):
-	return render_template("article.html", id=id)
-
-class RegisterForm(Form):
-	name = StringField('Name', [validators.Length(min=2, max=50)])
-	username = StringField('Username', [validators.Length(min=4, max=25)])
-	email = StringField('Email', [validators.Length(min=6, max=50)])
-	password = PasswordField('Password', [
-		validators.DataRequired(),
-		validators.EqualTo('confirm', message='Passwords do not match')
-	])
-	confirm = PasswordField('Confirm Password', [validators.DataRequired()])
-
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-	form = RegisterForm(request.form)
-	if request.method=="POST" and form.validate():
-		name = form.name.data
-		email = form.email.data
-		username = form.username.data
-		password = sha256_crypt.encrypt(str(form.password.data))
-
-		cur = mysql.connection.cursor()
-
-		cur.execute("INSERT INTO users(name, email, username, password) VALUES(%s, %s, %s, %s)", (name, email, username, password))
-		mysql.connection.commit()
-		cur.close()
-
-		flash("You are registered and can now log in", "success")
-
-		return redirect(url_for("index"))
-	
-
-	return render_template("register.html", form=form)
 
 if __name__ == '__main__':
-	app.secret_key="secret123"
 	app.run(debug=True)
 
 
