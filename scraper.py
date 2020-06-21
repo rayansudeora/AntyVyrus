@@ -29,88 +29,63 @@ PROJECT_TOKEN = "tENR1ercxLe_"
 RUN_TOKEN = "tU7b3K0S4pyz"
 
 
+def main(text):
 
-class Data:
-	def __init__(self, api_key, project_token):
-		self.API_Key = api_key
-		self.Project_Token = project_token
-		self.params = {
-			"api_key": self.API_Key
-		}
-		self.data = self.get_data()
+	class Data:
+		def __init__(self, api_key, project_token):
+			self.API_Key = api_key
+			self.Project_Token = project_token
+			self.params = {
+				"api_key": self.API_Key
+			}
+			self.data = self.get_data()
 
-	def get_data(self):
-		response = requests.get(f'https://www.parsehub.com/api/v2/projects/{self.Project_Token}/last_ready_run/data', params=self.params)
-		data = json.loads(response.text)
-		return data
+		def get_data(self):
+			response = requests.get(f'https://www.parsehub.com/api/v2/projects/{self.Project_Token}/last_ready_run/data', params=self.params)
+			data = json.loads(response.text)
+			return data
 
-	def get_country_info(self, country):
-		data = self.data["country"]
+		def get_country_info(self, country):
+			data = self.data["country"]
 
-		for content in data:
-			if content['name'].lower() == country.lower():
-				return content
+			for content in data:
+				if content['name'].lower() == country.lower():
+					return content
 
-		return "0"
+			return "0"
 
-	def get_list(self):
-		countries = []
-		for country in self.data['country']:
-			countries.append(country['name'].lower())
+		def get_list(self):
+			countries = []
+			for country in self.data['country']:
+				countries.append(country['name'].lower())
 
-		return countries
+			return countries
 
-data = Data(API_KEY, PROJECT_TOKEN)
+	data = Data(API_KEY, PROJECT_TOKEN)
 
 
-
-def return_data(country, data_type):
-	if data_type == "c":
+	def return_data(country):
 		country_stuff = data.get_country_info(country)
-		print(country_stuff['total_cases'])
-	elif data_type == "d":
 		country_stuff = data.get_country_info(country)
-		print(country_stuff['total_deaths'])
+		cases = (country_stuff['total_cases'])
+		deaths = (country_stuff['total_deaths'])
+		return cases, deaths
 
 
 
+	data = Data(API_KEY, PROJECT_TOKEN)
+	#print(data.get_data())
+
+	user_country = text
+
+
+	cases_deaths = return_data(user_country)
+	return cases_deaths
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-data = Data(API_KEY, PROJECT_TOKEN)
-print(data.get_data())
-
-while True:
-	user_country = input("Which country?")
-	if user_country.lower() in data.get_list():
-		break
-	else:
-		print("Sorry, that is not a valid country.")
-		continue
-while True:
-	user_type = input("Which type of data, cases or deaths? Answer c or d.")
-	if user_type[0].lower() == "c" or user_type[0].lower() == "d":
-		break
-	else:
-		print("Sorry, that is not data type.")
-		continue
-
-return_data(user_country, user_type)
-
-
-
-
+if __name__ == "__main__":
+	main()
 
 
 

@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session, logging
+import requests
+import json
+import scraper
 
 app = Flask(__name__)
 
@@ -15,7 +18,9 @@ def covid():
 @app.route("/covidupdates",methods=["POST"])
 def covidform():
 	text = request.form["text"].upper()
-	return render_template("postform.html", text=text)
+	#scraper.main(text)
+	return render_template("postform.html", text=text, data=scraper.main(text))
+
 
 @app.route("/selftest")
 def selftest():
