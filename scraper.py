@@ -1,6 +1,8 @@
 import requests
 import json
 import website
+import threading
+import time
 
 API_KEY = "tDEHxW_Jr1TW"
 PROJECT_TOKEN = "tENR1ercxLe_"
@@ -32,12 +34,30 @@ def main(text):
 
 			return "0"
 
+
 		def get_list(self):
 			countries = []
 			for country in self.data['country']:
 				countries.append(country['name'].lower())
 
 			return countries
+
+		def update_data(self):
+			response = requests.post(f'https://www.parsehub.com/api/v2/projects/{self.Project_Token}/run', params=self.params)
+
+			def poll():
+				old_data = self.data
+				while True:
+					new_data = self.get_data()
+					if new_data != old_data:
+						self.data = new_data
+						print("Data updated")
+						break
+
+
+				t = threading.Thread(target=poll)
+				t.start()
+
 
 	data = Data(API_KEY, PROJECT_TOKEN)
 
@@ -57,7 +77,7 @@ def main(text):
 
 
 	data = Data(API_KEY, PROJECT_TOKEN)
-	#print(data.get_data())
+	data.update_data()
 
 	user_country = text
 

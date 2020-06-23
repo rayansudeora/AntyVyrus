@@ -3,6 +3,7 @@ import requests
 import json
 import scraper
 
+
 app = Flask(__name__)
 
 
