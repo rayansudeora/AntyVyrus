@@ -14,8 +14,12 @@
 		<div class="jumbotron">
 		  <h1 class="display-4">{{ text }} COVID-19 Statistics</h1>
 		  <hr class="my-4">
-		  <p>Cases: {{ data[0] }}<br/>
-				Deaths: {{ data[1] }}</p>
+		  <p><b>Total Cases:</b> {{ data[0] }}<br/>
+				<b>Total Deaths:</b> {{ data[1] }}<br/>
+				<b>Recovered:</b> {{ data[2] }}<br/>
+				<b>Active Cases:</b> {{ data[3] }}<br/>
+				<b>Tests per 1 Million People:</b> {{ data[4] }}
+			</p>
 		  <a class="btn btn-primary btn-md" href="/covidupdates" role="button">Back</a>
 		</div>
 </div>
